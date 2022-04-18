@@ -5,9 +5,11 @@ use std::env;
 use std::fs::File;
 use std::str::FromStr;
 
-fn main() {
-    let args: Vec<String> = env::args().collect();
+fn get_args_vector() -> Vec<String> {
+    env::args().collect()
+}
 
+fn check_args(args: &Vec<String>) {
     if args.len() != 5 {
         eprintln!("Usage: {} FILE PIXELS UPPERLEFT LOWERRIGHT", args[0]);
         eprintln!(
@@ -16,6 +18,11 @@ fn main() {
         );
         std::process::exit(1);
     }
+}
+
+fn main() {
+    let args = get_args_vector();
+    check_args(&args);
 
     let bounds = parse_pair(&args[2], 'x').expect("error parsing image dimensions");
     let upper_left = parse_complex(&args[3]).expect("error parsing upper left corner point");
